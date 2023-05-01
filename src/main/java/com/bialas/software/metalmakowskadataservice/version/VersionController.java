@@ -7,11 +7,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class VersionController {
-    private static final String API_VERSION = "0.0.1";
+    private static final String API_VERSION = "0.0.2";
 
     @GetMapping("/version")
     public String getVersion() {
         log.info("The version of the backend is " + API_VERSION);
         return "API VERSION = " + API_VERSION;
+    }
+
+    @GetMapping("/secured")
+    public String getSecured() {
+        return "You are high privileged person as you see this.";
     }
 }
