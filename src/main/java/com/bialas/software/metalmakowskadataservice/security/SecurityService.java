@@ -9,14 +9,16 @@ import org.springframework.stereotype.Service;
 public class SecurityService {
 
     private final JSONWebTokenParser jsonWebTokenParser = new JSONWebTokenParser();
+    private final TokenValidator tokenValidator;
 
     @Nullable
     public JSONWebToken parse(String token) {
         return jsonWebTokenParser.parse(token);
     }
 
-    // TODO: add validation
     public boolean isValid(JSONWebToken token) {
-        return true;
+        return tokenValidator.isValid(token);
     }
+
+
 }

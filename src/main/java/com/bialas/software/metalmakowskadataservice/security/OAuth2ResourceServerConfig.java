@@ -1,5 +1,6 @@
 package com.bialas.software.metalmakowskadataservice.security;
 
+import com.bialas.software.metalmakowskadataservice.security.oauth2.CustomAuthenticationConverter;
 import com.bialas.software.metalmakowskadataservice.security.oauth2.CustomJwtDecoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class OAuth2ResourceServerConfig {
 
     private final SecurityService securityService;
+    private final SecurityRolesService securityRolesService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -25,7 +27,8 @@ public class OAuth2ResourceServerConfig {
                         .permitAll().anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .decoder(new CustomJwtDecoder(this.securityService))));
+                                .decoder(new CustomJwtDecoder(this.securityService))
+                                .jwtAuthenticationConverter(new CustomAuthenticationConverter(this.securityRolesService))));
         return http.build();
     }
 }
